@@ -3,9 +3,13 @@ import json
 from bs4 import BeautifulSoup
 import csv
 
+
+
 url = "https://shop.qoin.world/"
 
 i = 0
+
+
 
 while i<=753:
 
