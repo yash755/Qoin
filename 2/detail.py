@@ -27,33 +27,43 @@ with open('2.csv') as csv_file:
     for row in csv_reader:
         print (row[2])
 
-        url = row[2]
+        try:
 
-        driver.get(url)
-        html2 = driver.page_source
-        html = BeautifulSoup(html2, "lxml", from_encoding="utf-8")
-        scripts = html.find('script',{'type':'application/ld+json'})
+            url = row[2]
 
-        scripts = str(scripts)
-        scripts = scripts.replace('<script type="application/ld+json">','')
-        scripts = scripts.replace('</script>','')
+            driver.get(url)
+            html2 = driver.page_source
+            html = BeautifulSoup(html2, "lxml", from_encoding="utf-8")
+            scripts = html.find('script',{'type':'application/ld+json'})
 
-        data = json.loads(scripts)
+            scripts = str(scripts)
+            scripts = scripts.replace('<script type="application/ld+json">','')
+            scripts = scripts.replace('</script>','')
 
-        email = ''
+            data = json.loads(scripts)
 
-        if 'email' in data:
-            email = data['email']
+            email = ''
 
-            print (email)
+            if 'email' in data:
+                email = data['email']
 
-        row.append(email)
+                print (email)
 
-        print (row)
+            row.append(email)
 
-        arr = []
-        arr.append(row)
+            print (row)
 
-        with open('ipo_1_2.csv', 'a+') as csvfile:
-            csvwriter = csv.writer(csvfile)
-            csvwriter.writerows(arr)
+            arr = []
+            arr.append(row)
+
+            with open('ipo_1_2.csv', 'a+') as csvfile:
+                csvwriter = csv.writer(csvfile)
+                csvwriter.writerows(arr)
+
+        except:
+            arr = []
+            arr.append(row)
+
+            with open('ipo_1_2.csv', 'a+') as csvfile:
+                csvwriter = csv.writer(csvfile)
+                csvwriter.writerows(arr)
